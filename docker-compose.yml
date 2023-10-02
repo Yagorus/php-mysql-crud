@@ -1,0 +1,33 @@
+version: '3.7'
+services:
+  mysql: 
+    container_name: php_mysql_crud_db
+    image: mysql:8
+    restart: always
+    command: --init-file /tmp/script.sql
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: password123
+      MYSQL_DATABASE: php_mysql_crud
+      MYSQL_USER: test_user
+      MYSQL_PASSWORD: test_password
+    volumes:
+      - ./database/:/tmp
+      - ./db/:/var/lib/mysql
+
+  web:
+    container_name: php_mysql_crud_web
+    build:
+      context: .
+      dockerfile: Dockerfile-apache
+    volumes:
+      - "./src:/var/www/html" # sync the current dir on local machine to the dir of container
+    restart: always
+    ports:
+      - 80:80
+    depends_on:
+      - mysql
+    environment:
+      - WAIT_HOSTS=mysql:3306
+

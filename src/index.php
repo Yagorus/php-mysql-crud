@@ -41,12 +41,13 @@
         </thead>
         <tbody>
 
-          <?php
+                  <?php
           $query = "SELECT * FROM task";
-          $result_tasks = mysqli_query($conn, $query);    
+          $result_tasks = mysqli_query($conn, $query);
 
-          while($row = mysqli_fetch_assoc($result_tasks)) { ?>
-          <tr>
+          if ($result_tasks) {
+              while($row = mysqli_fetch_assoc($result_tasks)) { ?>
+                 <tr>
             <td><?php echo $row['title']; ?></td>
             <td><?php echo $row['description']; ?></td>
             <td><?php echo $row['created_at']; ?></td>
@@ -59,7 +60,11 @@
               </a>
             </td>
           </tr>
-          <?php } ?>
+              <?php }
+          } else {
+              echo "Error: " . mysqli_error($conn);
+          }
+          ?>
         </tbody>
       </table>
     </div>
