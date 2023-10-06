@@ -15,7 +15,7 @@ services:
     restart: always
     command: --init-file /tmp/script.sql
     ports:
-      - 3306:3306
+      - 3307:3306
     environment:
       MYSQL_ROOT_PASSWORD: password123
       MYSQL_DATABASE: php_mysql_crud
@@ -34,12 +34,11 @@ services:
       - "./src:/var/www/html" # sync the current dir on local machine to the dir of container
     restart: always
     ports:
-      - 80:80
+      - 8000:80
     depends_on:
       - mysql
     environment:
       - WAIT_HOSTS=mysql:3306
-
 ```
 
 ## Running application via docker-compose
